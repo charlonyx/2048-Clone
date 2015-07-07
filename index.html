@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+
+	<style type="text/css">
+		body{margin:0}
+		#content{
+		}
+		.over{
+			width:505px;
+			height:500px;
+			background-color:#777;
+			opacity:.5;
+			font-size:200px;
+			text-align:center;
+			color:#000;
+			position:absolute;
+			z-index:2;
+			display:none;
+		}
+		#game{
+			width:505px;
+			height:500px;
+			background-color:#aac;
+			display:block;
+			margin-left:auto;
+			margin-right:auto;
+			position:relative;
+		}
+		#title{
+			font-size:50px;
+			text-align:center;
+			margin-top:20px;
+			margin-bottom:20px;
+		}
+		.grid{
+			background-color:#bbd;
+			width:110px;
+			height:110px;
+			margin-right:10px;
+			margin-bottom:10px;
+			display:inline-block;
+		}
+		ul#grid{
+			display:inline-block;
+			width:500px;
+			height:500px;
+			white-space:nowrap;
+			list-style:none;
+			position:absolute;
+			margin-left:10px;
+			margin-top:10px;
+			padding:0;
+		}
+		ul#grid li{
+			margin:0;
+			list-style:none;
+			padding:0;
+			display:inline-block;
+			z-index:-1;
+		}
+		.box{
+			width:110px;
+			height:110px;
+			position:absolute;
+			z-index:1;
+			text-align:center;
+			font-size:50px;
+			line-height:105px;
+			transition: all .5s;
+			-webkit-transition: all .5s;
+		}
+		.col0{left:10px;}
+		.col1{left:135px;}
+		.col2{left:260px;}
+		.col3{left:385px;}
+		.row0{top:10px;}
+		.row1{top:130px;}
+		.row2{top:255px;}
+		.row3{top:375px;}
+		.b2{background-color:#ccf;}
+		.b4{background-color:#bbf;}
+		.b8{background-color:#66A3FF;}
+		.b16{background-color:#33D6FF;}
+		.b32{background-color:#00E6E6;}
+		.b64{background-color:#00CC99;}
+		.b128{background-color:#80E6B2;}
+		.b256{background-color:#33D685;}
+		.b512{background-color:#47D147;}
+		.b1024{background-color:#ADFF5C;}
+		.b2048{background-color:#FFFF75;}
+		p{
+			font-size:70px;
+			height:35px;
+			letter-spacing:70px;
+			width:200px;
+			color:#000;
+			margin-left:100px;
+		}
+	</style>
+	<script src="app.js"></script>
+	<script>
+		$(document).ready(function(){
+			grid = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+			newBox(grid);
+			newBox(grid);
+			$("#g0").html(grid[0]);
+			$("#g1").html(grid[1]);
+			$("#g2").html(grid[2]);
+			$("#g3").html(grid[3]);
+		});
+	</script>
+</head>
+<body>
+
+		<div id="title">2048</div>
+		<div id="game">
+			<div id="win" class="over">You Win!</div>
+			<div id="lose" class="over">Game Over!</div>
+			<ul id="grid">
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<br>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<br>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<br>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+				<li><div class="grid"></div></li>
+
+			<ul>
+		
+	</div>
+	
+	
+	<p id="g0"></p>
+	<p id="g1"></p>
+	<p id="g2"></p>
+	<p id="g3"></p>
+		
+</body>
+</html>
