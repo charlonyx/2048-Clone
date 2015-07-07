@@ -59,14 +59,14 @@ function merge(row, col, val){
 	$(nbox).html(val.toString());
 	$(nbox).addClass("row" + row);
 	$(nbox).addClass("col" + col);
-	setTimeout(function(){$("#game").append(nbox);}, 400);
-	//$("#game").append(nbox);
+	//setTimeout(function(){$("#game").append(nbox);}, 400);
+	$("#game").append(nbox);
 }
 
 function moveLeft(row, col, g){
 	//if there is space for the block to move
 	box = $(".row" + String(row)+".col"+String(col));
-	val = g[row][col];
+	var val = g[row][col];
 	rclass = "row" + String(row);
 	cclass = "col" + String(col);
 	newcclass = "col" + String(col - 1);
@@ -80,6 +80,7 @@ function moveLeft(row, col, g){
 		if(col - 1 != 0){
 			moveLeft(row,col-1,g);
 		}
+		return true;
 	} else { //if there is a block in its way
 		//if the blocks have the same value
 		if(g[row][col-1] == val){
@@ -90,10 +91,14 @@ function moveLeft(row, col, g){
 			$("." + cclass + "." + rclass).removeClass(cclass);
 			boxes = $(".row" + String(row)+".col"+String(col-1));
 			//remove old boxes
-			setTimeout(function(){boxes.remove();}, 400);
-			merge(row,col-1,val*2);				
+			//setTimeout(function(){boxes.remove();}, 400);
+			box.on('transitionend webkitTransitionEnd oTransitionEnd', function(){
+				boxes.remove();
+				merge(row,col-1,val*2);		
+			});
 			g[row][col] = 0;
 			g[row][col-1] = val*2;
+			return true;
 		} else { //if they do not have the same value
 			return; //the block has moved as far as it can
 		}
@@ -102,7 +107,7 @@ function moveLeft(row, col, g){
 
 function moveRight(row, col, g){
 	box = $(".row" + String(row)+".col"+String(col));
-	val = g[row][col];
+	var val = g[row][col];
 	rclass = "row" + String(row);
 	cclass = "col" + String(col);
 	newcclass = "col" + String(col + 1);
@@ -118,6 +123,7 @@ function moveRight(row, col, g){
 		if(col + 1 < 4){
 			moveRight(row,col+1,g);
 		}
+		return true;
 	} else { //if there is a block in its way
 		//if the blocks have the same value
 		if(g[row][col+1] == val){
@@ -128,10 +134,16 @@ function moveRight(row, col, g){
 			$("." + cclass + "." + rclass).removeClass(cclass);
 			boxes = $(".row" + String(row)+".col"+String(col+1));
 			//remove old boxes
-			setTimeout(function(){boxes.remove();}, 400);
-			merge(row,col+1,val*2);				
+			//setTimeout(function(){boxes.remove();}, 400);
+			console.log(val*2);
+			box.on('transitionend webkitTransitionEnd oTransitionEnd', function(){
+				boxes.remove();
+				console.log(val*2);
+				merge(row,col+1,val*2);
+			});
 			g[row][col] = 0;
 			g[row][col+1] = val*2;
+			return true;
 		} else { //if they do not have the same value
 			return; //the block has moved as far as it can
 		}
@@ -140,7 +152,7 @@ function moveRight(row, col, g){
 
 function moveUp(row, col, g){
 	box = $(".row" + String(row)+".col"+String(col));
-	val = g[row][col];
+	var val = g[row][col];
 	rclass = "row" + String(row);
 	cclass = "col" + String(col);
 	newcclass = "row" + String(row - 1);	
@@ -156,6 +168,7 @@ function moveUp(row, col, g){
 		if(row - 1 != 0){
 			moveUp(row-1,col,g);
 		}
+		return true;
 	} else { //if there is a block in its way
 		//if the blocks have the same value
 		if(g[row-1][col] == val){
@@ -166,10 +179,14 @@ function moveUp(row, col, g){
 			$("." + cclass + "." + rclass).removeClass(rclass);
 			boxes = $(".row" + String(row-1)+".col"+String(col));
 			//remove old boxes
-			setTimeout(function(){boxes.remove();}, 400);
-			merge(row-1,col,val*2);				
+		//	setTimeout(function(){boxes.remove();}, 400);
+			box.on('transitionend webkitTransitionEnd oTransitionEnd', function(){
+				boxes.remove();
+				merge(row-1,col,val*2);	
+			});				
 			g[row][col] = 0;
 			g[row-1][col] = val*2;
+			return true;
 		} else { //if they do not have the same value
 			return; //the block has moved as far as it can
 		}
@@ -178,7 +195,7 @@ function moveUp(row, col, g){
 
 function moveDown(row, col, g){
 	box = $(".row" + String(row)+".col"+String(col));
-	val = g[row][col];
+	var val = g[row][col];
 	rclass = "row" + String(row);
 	cclass = "col" + String(col);
 	newcclass = "row" + String(row + 1);	
@@ -194,6 +211,7 @@ function moveDown(row, col, g){
 		if(row + 1 < 3){
 			moveDown(row+1,col,g);
 		}
+		return true;
 	} else { //if there is a block in its way
 		//if the blocks have the same value
 		if(g[row+1][col] == val){
@@ -204,10 +222,14 @@ function moveDown(row, col, g){
 			$("." + cclass + "." + rclass).removeClass(rclass);
 			boxes = $(".row" + String(row+1)+".col"+String(col));
 			//remove old boxes
-			setTimeout(function(){boxes.remove();}, 400);
-			merge(row+1,col,val*2);				
+			//setTimeout(function(){boxes.remove();}, 400);
+			box.on('transitionend webkitTransitionEnd oTransitionEnd', function(){
+				boxes.remove();
+				merge(row+1,col,val*2);	
+			});
 			g[row][col] = 0;
 			g[row+1][col] = val*2;
+			return true;
 		} else { //if they do not have the same value
 			return; //the block has moved as far as it can
 		}
@@ -217,6 +239,7 @@ function moveDown(row, col, g){
 $(document).keydown(function(e) {
 	// length = box width + margin
 	g = grid;
+	moves = false; //if there are no possible moves with an arrow press, a new box will not spawn
     switch(e.which) {
         case 37: // left
 		//loop through grid to find boxes/
@@ -225,7 +248,7 @@ $(document).keydown(function(e) {
 				for(i=0; i<g.length;i++){
 					//for each box
 					if(g[i][j]>0){		
-						moveLeft(i, j, g);
+						moves = moveLeft(i, j, g);
 						//console.log("left", i,j);
 					}				
 				}
@@ -239,7 +262,7 @@ $(document).keydown(function(e) {
 				for(j=0; j<g[0].length;j++){
 					//for each box
 					if(g[i][j]>0){		
-						moveUp(i, j, g);
+						moves = moveUp(i, j, g);
 						//console.log("up", i,j);
 					}				
 				}
@@ -253,7 +276,7 @@ $(document).keydown(function(e) {
 				for(i=0; i<g.length;i++){
 					//for each box
 					if(g[i][j]>0){		
-						moveRight(i, j, g);
+						moves = moveRight(i, j, g);
 						//console.log("right", i,j);
 					}				
 				}
@@ -267,7 +290,7 @@ $(document).keydown(function(e) {
 				for(j=0; j<g[0].length;j++){
 					//for each box
 					if(g[i][j]>0){		
-						moveDown(i, j, g);
+						moves = moveDown(i, j, g);
 						//console.log("down", i,j);
 					}				
 				}
@@ -277,12 +300,12 @@ $(document).keydown(function(e) {
         default: return; // exit this handler for other keys
     }
     e.preventDefault(); // prevent the default action (scroll / move caret)
-	setTimeout(function(){newBox(g);}, 350);
+	if(moves){setTimeout(function(){newBox(g);}, 350);};
 	$("#g0").html(g[0]);
 	$("#g1").html(g[1]);
 	$("#g2").html(g[2]);
 	$("#g3").html(g[3]);
-	check_end(g, end);
+	check_end(g);
 });
 function check_end(g){
 	//check if the board shows a win or loss
