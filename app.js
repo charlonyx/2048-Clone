@@ -53,13 +53,13 @@ function newBox(g){
 function merge(row, col, val){
 	//function to merge two boxes with the same number
 	//creates a block with the new val at the given position
+	console.log("b", row, col, val);
 	var nbox = document.createElement("div");
 	$(nbox).addClass("box");
 	$(nbox).addClass("b" + val);
 	$(nbox).html(val.toString());
 	$(nbox).addClass("row" + row);
 	$(nbox).addClass("col" + col);
-	//setTimeout(function(){$("#game").append(nbox);}, 400);
 	$("#game").append(nbox);
 }
 
@@ -91,11 +91,16 @@ function moveLeft(row, col, g){
 			$("." + cclass + "." + rclass).removeClass(cclass);
 			boxes = $(".row" + String(row)+".col"+String(col-1));
 			//remove old boxes
-			//setTimeout(function(){boxes.remove();}, 400);
-			box.on('transitionend webkitTransitionEnd oTransitionEnd', function(){
+			var triggerTime;
+			triggerTime	= setTimeout(function(){
+				box.trigger("timeoutend");
+			}, 350);
+			box.on('transitionend webkitTransitionEnd oTransitionEnd timeoutend', function(){
+				clearTimeout(triggerTime);
 				boxes.remove();
 				merge(row,col-1,val*2);		
 			});
+
 			g[row][col] = 0;
 			g[row][col-1] = val*2;
 			return true;
@@ -134,12 +139,14 @@ function moveRight(row, col, g){
 			$("." + cclass + "." + rclass).removeClass(cclass);
 			boxes = $(".row" + String(row)+".col"+String(col+1));
 			//remove old boxes
-			//setTimeout(function(){boxes.remove();}, 400);
-			console.log(val*2);
-			box.on('transitionend webkitTransitionEnd oTransitionEnd', function(){
+			var triggerTime;
+			triggerTime = setTimeout(function(){
+				box.trigger("timeoutend");
+			}, 350);
+			box.on('transitionend webkitTransitionEnd oTransitionEnd timeoutend', function(){
 				boxes.remove();
-				console.log(val*2);
 				merge(row,col+1,val*2);
+				clearTimeout(triggerTime);
 			});
 			g[row][col] = 0;
 			g[row][col+1] = val*2;
@@ -180,10 +187,17 @@ function moveUp(row, col, g){
 			boxes = $(".row" + String(row-1)+".col"+String(col));
 			//remove old boxes
 		//	setTimeout(function(){boxes.remove();}, 400);
-			box.on('transitionend webkitTransitionEnd oTransitionEnd', function(){
+			var triggerTime;
+			triggerTime = setTimeout(function(){
+				box.trigger("timeoutend");
+			}, 350);
+			box.on('transitionend webkitTransitionEnd oTransitionEnd timeoutend', 
+			function(){
+				clearTimeout(triggerTime);
 				boxes.remove();
 				merge(row-1,col,val*2);	
-			});				
+			});		
+			
 			g[row][col] = 0;
 			g[row-1][col] = val*2;
 			return true;
@@ -222,11 +236,16 @@ function moveDown(row, col, g){
 			$("." + cclass + "." + rclass).removeClass(rclass);
 			boxes = $(".row" + String(row+1)+".col"+String(col));
 			//remove old boxes
-			//setTimeout(function(){boxes.remove();}, 400);
-			box.on('transitionend webkitTransitionEnd oTransitionEnd', function(){
+			var triggerTime;
+			triggerTime = setTimeout(function(){
+				box.trigger("timeoutend");
+			}, 350);
+			box.on('transitionend webkitTransitionEnd oTransitionEnd timeoutend', function(){		
 				boxes.remove();
 				merge(row+1,col,val*2);	
+				clearTimeout(triggerTime);
 			});
+
 			g[row][col] = 0;
 			g[row+1][col] = val*2;
 			return true;
@@ -240,6 +259,11 @@ $(document).keydown(function(e) {
 	// length = box width + margin
 	g = grid;
 	moves = false; //if there are no possible moves with an arrow press, a new box will not spawn
+	//if boxes are moving from a previous turn, make them finish their move
+	$(".box").addClass("no-transition");
+	setTimeout(function(){
+		$(".box").removeClass("no-transition");
+	setTimeout(function(){
     switch(e.which) {
         case 37: // left
 		//loop through grid to find boxes/
@@ -299,6 +323,7 @@ $(document).keydown(function(e) {
 
         default: return; // exit this handler for other keys
     }
+	
     e.preventDefault(); // prevent the default action (scroll / move caret)
 	if(moves){setTimeout(function(){newBox(g);}, 350);};
 	$("#g0").html(g[0]);
@@ -306,6 +331,8 @@ $(document).keydown(function(e) {
 	$("#g2").html(g[2]);
 	$("#g3").html(g[3]);
 	check_end(g);
+	}, 0);
+	},0)
 });
 function check_end(g){
 	//check if the board shows a win or loss
