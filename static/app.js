@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	high_scores = get_high_scores();
+	get_high_scores();
 	update_scoreboard();
 	
 	//Start new game on load
@@ -446,8 +446,12 @@ function high_score_check(){
 }
 
 function get_high_scores(){
-	high_scores = [{name:"mat", score:2048}, {name:"rand", score:512}, {name:"moiraine", score:256}, {name:"lan", score:128}, {name:"nynaeve", score:128}, {name:"bob", score:64}, {name:"thom", score:32}, {name:"min", score:16}, {name:"yolandi", score:8}, {name:"logain", score:4}];
-	return high_scores;
+	$.ajax({
+		url: "/highscores",
+		success: function(json){
+			high_scores = json;
+		}		
+	})
 }
 
 function update_scoreboard(){
