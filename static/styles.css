@@ -130,8 +130,8 @@
 		-webkit-transition: all .25s;
 	}
 	.no-transition{
-		transition: all .1s;
-		-webkit-transition: all .1s;
+		transition: all 0s;
+		-webkit-transition: all 0s;
 	}
 	#score{font-size:40px;}
 	.col0{left:10px;}

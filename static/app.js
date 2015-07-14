@@ -29,9 +29,18 @@ $(document).ready(function(){
 				break;
 			}
 		}
+		$.ajax({
+			type: "POST",
+			url: "/add",
+			data:{score:score, name:name},
+			success: function(json){
+				high_scores = JSON.parse(json);
+				update_scoreboard();
+			}
+		});	
 		//hide the "enter your name" div
 		$("#hsenter").css("display", "none");
-		update_scoreboard();
+		
 		//update the scoreboard
 	});
 });
@@ -438,20 +447,20 @@ function check_end(g, after2048){
 
 //High Score 
 function high_score_check(){
-	if(score > high_scores[high_scores.length - 1].score){
+	if(high_scores.length < 10 || score > high_scores[high_scores.length - 1].score){
 		//if the score is greater than the lowest high score
-		$("#hsenter").css("display", "block");
-		
+		$("#hsenter").css("display", "block");	
 	}
 }
 
 function get_high_scores(){
+	high_scores = [];
 	$.ajax({
 		url: "/highscores",
 		success: function(json){
-			high_scores = json;
+			high_scores = JSON.parse(json);
 		}		
-	})
+	});
 }
 
 function update_scoreboard(){
