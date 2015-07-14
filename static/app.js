@@ -317,6 +317,7 @@ function moveDown(row, col, g){
 }
 
 $(document).keydown(function(e, after2048) {
+	 e.preventDefault(); // prevent the default action (scroll / move caret)
 	// length = box width + margin
 	var g = grid;
 	var moves = false; //if there are no possible moves with an arrow press, a new box will not spawn
@@ -380,7 +381,6 @@ $(document).keydown(function(e, after2048) {
 
         default: return; // exit this handler for other keys
     }
-    e.preventDefault(); // prevent the default action (scroll / move caret)
 	for(i=0; i<g.length; i++){
 		for(j=0; j<g[0].length; j++){
 			var old_val = g[i][j];
@@ -459,6 +459,7 @@ function get_high_scores(){
 		url: "/highscores",
 		success: function(json){
 			high_scores = JSON.parse(json);
+			update_scoreboard();
 		}		
 	});
 }
